@@ -148,7 +148,7 @@ export default function Vision() {
             Notre vision
           </h2>
           <p className="mx-auto max-w-3xl text-lg leading-relaxed text-gray-600">
-            Optimiser l'organisation des entreprises en externalisant les fonctions
+            Optimiser l&apos;organisation des entreprises en externalisant les fonctions
             support vers un back-office mutualisé, permettant aux équipes terrain de se
             concentrer entièrement sur leur cœur de métier et la création de valeur.
           </p>
