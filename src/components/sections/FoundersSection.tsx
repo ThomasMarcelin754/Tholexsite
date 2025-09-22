@@ -1,11 +1,32 @@
-const founders = [
+import Image from 'next/image';
+import type { CSSProperties } from 'react';
+
+type Founder = {
+  name: string;
+  role: string;
+  imageSrc: string;
+  imageAlt: string;
+  imagePosition?: string;
+  imageScale?: number;
+  imageTransformOrigin?: string;
+};
+
+const founders: Founder[] = [
   {
-    name: 'Fondateur·rice 1',
-    role: 'Rôle',
+    name: 'Thomas Marcelin',
+    role: 'Co-fondateur',
+    imageSrc: '/images/Thomas Marcelin.jpeg',
+    imageAlt: 'Portrait de Thomas Marcelin',
+    imagePosition: '50% 5%',
+    imageScale: 0.84,
+    imageTransformOrigin: 'top center',
   },
   {
-    name: 'Fondateur·rice 2',
-    role: 'Rôle',
+    name: 'Alexy Bouvet',
+    role: 'Co-fondateur',
+    imageSrc: '/images/Alexy Bouvet.jpeg',
+    imageAlt: 'Portrait d\'Alexy Bouvet',
+    imageScale: 0.92,
   },
 ];
 
@@ -17,7 +38,7 @@ export function FoundersSection() {
         {/* Header avec fond contrasté */}
         <div className="text-center">
           <div className="inline-flex items-center px-4 py-2 bg-primary/5 rounded-full border border-primary/20 mb-6">
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">Founders</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-primary">Équipe fondatrice</p>
           </div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4 sm:text-5xl">
             Rencontrez l&apos;équipe
@@ -38,7 +59,7 @@ export function FoundersSection() {
               <svg className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.832 18.477 19.246 18 17.5 18c-1.746 0-3.332.477-4.5 1.253" />
               </svg>
-              Notre histoire entrepreneuriale
+              Découvrez notre aventure entrepreneuriale
               <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
@@ -48,35 +69,41 @@ export function FoundersSection() {
 
         {/* Cards avec contraste élevé */}
         <div className="grid gap-8 sm:grid-cols-2">
-          {founders.map((founder, index) => (
-            <article
-              key={founder.name}
-              className="group relative bg-gradient-to-br from-gray-50 to-white rounded-3xl border-2 border-gray-200 p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
-            >
-              {/* Numéro de founder */}
-              <div className="absolute -top-4 -left-4 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
-                {index + 1}
-              </div>
+          {founders.map((founder, index) => {
+            const imageStyle: CSSProperties = {
+              objectPosition: founder.imagePosition ?? '50% 50%',
+            };
+
+            if (founder.imageScale) {
+              imageStyle.transform = `scale(${founder.imageScale})`;
+            }
+
+            if (founder.imageTransformOrigin) {
+              imageStyle.transformOrigin = founder.imageTransformOrigin;
+            }
+
+            return (
+              <article
+                key={founder.name}
+                className="group relative bg-gradient-to-br from-gray-50 to-white rounded-3xl border-2 border-gray-200 p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+              >
 
               {/* Photo avec arrière-plan noir contrasté */}
               <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gray-900 border-4 border-gray-300 group-hover:border-primary/50 transition-colors duration-300">
-                {/* Placeholder pour photo avec arrière-plan noir */}
-                <div className="absolute inset-0 bg-gray-900"></div>
-
-                {/* Frame décoratif */}
-                <div className="absolute inset-2 border-2 border-gray-700 rounded-xl"></div>
-
-                {/* Indicateur "Photo à venir" */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white/80">
-                    <div className="w-12 h-12 mx-auto mb-2 bg-white/10 rounded-full flex items-center justify-center">
-                      <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H5C3.89 1 3 1.89 3 3V21C3 22.1 3.89 23 5 23H19C20.1 23 21 22.1 21 21V9Z"/>
-                      </svg>
-                    </div>
-                    <p className="text-xs font-medium">Photo</p>
-                  </div>
+                <div className="absolute inset-0">
+                  <Image
+                    src={founder.imageSrc}
+                    alt={founder.imageAlt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover"
+                    priority={index === 0}
+                    style={imageStyle}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
                 </div>
+
+                <div className="absolute inset-2 pointer-events-none border-2 border-gray-700/80 rounded-xl" />
               </div>
 
               {/* Contenu avec contraste élevé */}
@@ -99,8 +126,9 @@ export function FoundersSection() {
 
               {/* Effet de hover */}
               <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/0 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
 
         {/* Call-to-action section */}
