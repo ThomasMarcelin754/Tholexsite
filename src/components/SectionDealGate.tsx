@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { SectionLabel } from './SectionLabel';
+
 const VIEW_COUNT = 2;
 
 const CRITERIA = [
@@ -227,7 +229,7 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
 
   useEffect(() => {
     if (isMobileViewport) return;
-    const next = progress >= 0.5 ? 1 : 0;
+    const next = progress >= 0.3 ? 1 : 0;
     setCurrentView((prev) => (prev === next ? prev : next));
   }, [isMobileViewport, progress]);
 
@@ -378,17 +380,23 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
     <section
       id="criteres"
       ref={sectionRef}
-      className="relative isolate scroll-mt-24 bg-accent/40 pb-12"
+      className="relative isolate scroll-mt-24 bg-white pb-8 sm:pb-10"
       aria-labelledby="deal-gate-heading"
       style={{ minHeight: sectionHeight }}
     >
       <div
         ref={stickyRef}
-        className={`sticky top-0 z-10 flex flex-col overflow-hidden bg-accent/40 backdrop-blur-sm ${
-          isMobileViewport ? 'h-screen' : 'min-h-[100dvh] pb-16'
+        className={`sticky top-0 z-10 flex flex-col overflow-hidden bg-white/0 pb-8 sm:pb-12 ${
+          isMobileViewport ? 'min-h-[92dvh]' : 'min-h-[85dvh]'
         }`}
       >
-        <header className="flex flex-col items-center gap-3 px-4 pt-10 sm:gap-4 sm:px-6">
+        <header className="flex w-full flex-col items-center gap-4 bg-white px-4 pt-8 sm:gap-5 sm:px-6 sm:pt-10">
+          <SectionLabel
+            label="INVESTISSEMENT"
+            align="center"
+            withFrame={false}
+            className="text-primary/70"
+          />
           <div className="flex items-center gap-3">
             <BadgeButton
               label="CRITÈRES"
@@ -398,7 +406,7 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
             <BadgeButton
               label="DEAL FIT"
               active={currentView === 1}
-              disabled={isMobileViewport ? !isScrollReleased : progress < 0.5}
+              disabled={isMobileViewport ? !isScrollReleased : progress < 0.3}
               onClick={() => scrollToView(1)}
             />
           </div>
@@ -406,7 +414,7 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
             Ce que nous regardons & comment on embarque
           </h2>
           <p className="max-w-3xl text-center text-xs text-foreground/70 sm:text-base">
-            Faites glisser pour explorer nos critères d’investissement, puis découvrez la structure de deal correspondante.
+            Faites glisser pour explorer nos critères d'investissement, puis découvrez la structure de deal correspondante.
           </p>
         </header>
 
@@ -425,7 +433,7 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
                     viewRefs.current[index] = node;
                   }}
                   data-view-index={index}
-                  className="flex h-[100vh] min-h-[100vh] flex-shrink-0 snap-start"
+                  className="flex h-[88vh] min-h-[88vh] flex-shrink-0 snap-start"
                 >
                   {index === 0 ? (
                     <ViewCriteria
@@ -450,7 +458,7 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
             </div>
           ) : (
             <div
-              className={`absolute inset-0 flex h-[200%] w-full flex-col will-change-transform ${
+              className={`absolute inset-0 flex h-[180%] w-full flex-col will-change-transform ${
                 prefersReducedMotion ? '' : 'transition-transform duration-500 ease-out'
               }`}
               style={{ transform: transformValue }}
@@ -475,27 +483,28 @@ function InteractiveSection({ prefersReducedMotion, isMobileViewport }: Interact
           )}
         </div>
 
-        <nav className="pointer-events-none mb-8 flex items-center justify-center gap-3 px-4 sm:mb-10 sm:px-6">
-          {[0, 1].map((index) => {
-            const isActive = currentView === index;
-            const isUnlocked =
-              index === 0 || (isMobileViewport ? isScrollReleased : progress >= 0.5);
-            return (
-              <button
-                key={index}
-                type="button"
-                disabled={!isUnlocked}
-                onClick={() => scrollToView(index)}
-                className={`pointer-events-auto h-3.5 w-3.5 rounded-full transition ${
-                  isActive
-                    ? 'scale-125 bg-primary shadow-[0_0_0_4px_rgba(183,65,14,0.15)]'
-                    : 'bg-foreground/30 hover:bg-foreground/60 disabled:bg-foreground/10'
-                } ${!isUnlocked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                aria-label={`Aller à la vue ${index + 1}`}
-              />
-            );
-          })}
-        </nav>
+        <div className="pointer-events-none absolute bottom-4 left-0 right-0 flex justify-center px-4 sm:bottom-6 sm:px-6">
+          <nav className="pointer-events-auto flex items-center justify-center gap-4 rounded-full border border-primary/15 bg-white/95 px-6 py-3 shadow-[0_25px_60px_-35px_rgba(15,15,15,0.45)] backdrop-blur">
+            {[0, 1].map((index) => {
+              const isActive = currentView === index;
+              const isUnlocked = index === 0 || (isMobileViewport ? isScrollReleased : progress >= 0.3);
+              return (
+                <button
+                  key={index}
+                  type="button"
+                  disabled={!isUnlocked}
+                  onClick={() => scrollToView(index)}
+                  className={`h-4 w-4 rounded-full transition ${
+                    isActive
+                      ? 'scale-125 bg-primary shadow-[0_0_0_6px_rgba(183,65,14,0.18)]'
+                      : 'bg-foreground/30 hover:bg-foreground/60 disabled:bg-foreground/10'
+                  } ${!isUnlocked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                  aria-label={`Aller à la vue ${index + 1}`}
+                />
+              );
+            })}
+          </nav>
+        </div>
       </div>
 
       {overlayContext ? (
@@ -511,8 +520,8 @@ type FallbackSectionProps = {
 
 function FallbackSection({ prefersReducedMotion = false }: FallbackSectionProps) {
   return (
-    <section id="criteres" className="scroll-mt-24 bg-accent">
-      <div className="mx-auto flex max-w-6xl flex-col gap-14 px-4 py-20 sm:gap-16 sm:px-6 sm:py-24">
+    <section id="criteres" className="scroll-mt-24 bg-white">
+      <div className="mx-auto flex max-w-6xl flex-col gap-14 px-4 py-16 sm:gap-16 sm:px-6 sm:py-20">
         <header className="flex flex-col items-center gap-3 text-center sm:gap-4">
           <div className="flex items-center gap-3">
             <span className="rounded-full border border-primary/20 bg-white px-3 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-primary">
@@ -564,9 +573,9 @@ function ViewCriteria({
       aria-label="Critères"
       className={`flex min-h-full w-full flex-shrink-0 flex-col ${
         isMobile ? 'items-stretch' : 'items-center'
-      } justify-start gap-8 px-4 pb-16 pt-14 ${
+      } justify-center gap-6 px-4 pb-8 pt-8 ${
         prefersReducedMotion ? '' : 'transition duration-300'
-      } sm:gap-10 sm:px-6 sm:pb-12 sm:pt-12 ${
+      } sm:gap-8 sm:px-6 sm:pb-9 sm:pt-9 ${
         isMobile ? 'snap-start overflow-y-auto' : ''
       } ${
         active ? 'opacity-100' : 'opacity-60'
@@ -629,19 +638,19 @@ function ViewDealFit({
       aria-label="Deal fit"
       className={`flex min-h-full w-full flex-shrink-0 flex-col ${
         isMobile ? 'items-stretch' : 'items-center'
-      } justify-start gap-8 px-4 pb-20 pt-14 ${
+      } justify-center gap-6 px-4 pb-10 pt-10 ${
         prefersReducedMotion ? '' : 'transition duration-300'
-      } sm:gap-10 sm:px-6 sm:pb-12 sm:pt-12 ${
+      } sm:gap-8 sm:px-6 sm:pb-9 sm:pt-9 ${
         isMobile ? 'snap-start overflow-y-auto' : ''
       } ${
         active ? 'opacity-100' : 'opacity-60'
-      }`}
+      } bg-transparent`}
     >
       <div className="grid w-full max-w-5xl gap-5 sm:gap-6 lg:grid-cols-2">
         {DEALS.map((deal, index) => (
           <article
             key={deal.id}
-            className={`relative flex h-full flex-col justify-between gap-6 rounded-3xl border border-primary/15 bg-gradient-to-br from-white via-white to-accent/40 p-6 shadow-[0_30px_80px_-40px_rgba(15,15,15,0.55)] ${
+            className={`relative flex h-full flex-col justify-between gap-6 rounded-3xl border border-primary/15 bg-white p-6 shadow-[0_30px_80px_-40px_rgba(15,15,15,0.55)] ${
               prefersReducedMotion ? '' : 'transition duration-300'
             } sm:p-8 ${
               active ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-80'
