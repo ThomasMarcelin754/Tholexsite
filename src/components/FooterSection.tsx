@@ -77,63 +77,61 @@ export function FooterSection() {
         borderTop: "1px solid rgba(255, 255, 255, 0.12)",
       }}
     >
-      <div className="max-w-[1600px] mx-auto px-5 md:px-10 lg:px-[80px] py-12 md:py-16">
-        <div className="flex flex-col gap-10 lg:gap-16">
-          {/* Top row */}
-          <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 lg:gap-20">
-            <div className="space-y-4">
-              <p
-                className="uppercase tracking-[0.32em] text-[16px] md:text-[18px]"
-                style={{ fontWeight: 700, letterSpacing: "0.32em" }}
-              >
-                THOLEX
-              </p>
-              <p className="text-[14px] md:text-[15px] leading-[1.7]" style={{ color: STONE }}>
-                Groupe industriel dédié aux transmissions sereines et à la
-                croissance durable des PME familiales en France.
-              </p>
-            </div>
-
-            <nav className="flex flex-wrap items-center gap-5 md:gap-8 text-[14px] md:text-[15px]">
-              {mainLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="transition-colors duration-200 hover:text-white"
-                  style={{ color: CREAM }}
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
-
-            <div className="flex items-center gap-4">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  aria-label={link.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/8 text-white/80 transition-all duration-200 hover:bg-white/15 hover:text-white"
-                >
-                  {link.icon}
-                </a>
-              ))}
-            </div>
+      <div className="max-w-[1600px] mx-auto px-5 md:px-10 lg:px-[80px] py-12 md:py-16 flex flex-col gap-10 lg:gap-16">
+        {/* Top row */}
+        <div className="flex flex-col items-center md:flex-row md:items-start md:justify-between gap-10 lg:gap-20">
+          <div className="space-y-4 text-center md:text-left">
+            <p
+              className="uppercase tracking-[0.32em] text-[16px] md:text-[18px]"
+              style={{ fontWeight: 700, letterSpacing: "0.32em" }}
+            >
+              THOLEX
+            </p>
+            <p className="text-[14px] md:text-[15px] leading-[1.7]" style={{ color: STONE }}>
+              Groupe industriel dédié aux transmissions sereines et à la
+              croissance durable des PME familiales en France.
+            </p>
           </div>
 
-          <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[12px] md:text-[13px]" style={{ color: STONE }}>
-            <span>© {currentYear} Tholex. Tous droits réservés.</span>
-            <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 text-white/70">
-              {legalLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="hover:text-white transition-colors duration-200"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </div>
+          <nav className="flex flex-col sm:flex-row sm:flex-wrap sm:justify-center md:justify-start items-center gap-4 sm:gap-6 md:gap-8 text-[14px] md:text-[15px]">
+            {mainLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="transition-colors duration-200 hover:text-white"
+                style={{ color: CREAM }}
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="flex items-center justify-center md:justify-start gap-4">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                aria-label={link.label}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-white/8 text-white/80 transition-all duration-200 hover:bg-white/15 hover:text-white"
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[12px] md:text-[13px] text-center md:text-left" style={{ color: STONE }}>
+          <span>© {currentYear} Tholex. Tous droits réservés.</span>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center md:justify-end sm:gap-6 text-white/70 gap-3">
+            {legalLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="hover:text-white transition-colors duration-200"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </div>
       </div>
