@@ -166,17 +166,20 @@ export function SectorsSection() {
                 }}
               >
                 {/* Background Image - Only for maintenance-technique */}
-                {sector.bgImage && (
-                  <div className="absolute inset-0 z-0">
-                    <img
-                      src={typeof sector.bgImage === 'string' ? sector.bgImage : sector.bgImage.src}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                    {/* Voile blanc/transparent pour atténuer l'image */}
-                    <div className="absolute inset-0 bg-white/85" />
-                  </div>
-                )}
+                {sector.bgImage && (() => {
+                  const imgSrc = typeof sector.bgImage === 'string' ? sector.bgImage : (sector.bgImage as StaticImageData).src;
+                  return (
+                    <div className="absolute inset-0 z-0">
+                      <img
+                        src={imgSrc}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                      {/* Voile blanc/transparent pour atténuer l'image */}
+                      <div className="absolute inset-0 bg-white/85" />
+                    </div>
+                  );
+                })()}
                 {/* Header: Icon + Title + Chevron */}
                 <div className="w-full flex items-start justify-between gap-4 relative z-10">
                   <div className="flex items-start gap-4 md:gap-5 flex-1">
