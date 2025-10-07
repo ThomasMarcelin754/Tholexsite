@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -8,8 +10,11 @@ import {
   Package,
   Megaphone,
   LucideIcon,
+  UserCheck,
+  GraduationCap,
+  Award,
 } from "lucide-react";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import Image from "next/image";
 
 const GRAY_LINE = "#D1D1D1";
 const ACCENT_COLOR = "#E63946";
@@ -54,6 +59,22 @@ const acquisitions: Acquisition[] = [
     company: "Entreprise Familiale Services",
     imageUrl:
       "https://images.unsplash.com/photo-1719835491911-99dd30f3f2dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzZW5pb3IlMjBleGVjdXRpdmUlMjBwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdHxlbnwxfHx8fDE3NTk3MzY0MzB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    status: "active",
+  },
+  {
+    id: "acq3",
+    name: "Laurent Rousseau",
+    company: "Tech Solutions France",
+    imageUrl:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw1fHxidXNpbmVzcyUyMG1hbiUyMHBvcnRyYWl0fGVufDF8fHx8MTc1OTc0Mzg2M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    status: "active",
+  },
+  {
+    id: "acq4",
+    name: "Marie Leclerc",
+    company: "Distribution & Logistique",
+    imageUrl:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw4fHxidXNpbmVzcyUyMHdvbWFuJTIwcG9ydHJhaXR8ZW58MXx8fHx8MTc1OTc0Mzg2M3ww&ixlib=rb-4.1.0&q=80&w=1080",
     status: "active",
   },
 ];
@@ -208,10 +229,11 @@ function AcquisitionCard({
       <div className="flex items-center gap-3">
         {/* Profile Image */}
         <div className="relative w-11 h-11 flex-shrink-0">
-          <ImageWithFallback
+          <Image
             src={acquisition.imageUrl}
             alt={acquisition.name}
-            className="w-full h-full rounded-full object-cover"
+            fill
+            className="rounded-full object-cover"
           />
           {/* Status indicator */}
           {acquisition.status === "active" && (
@@ -286,18 +308,15 @@ function ConnectionNode({
         strokeWidth="2.5"
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 0.5,
-          delay,
-          ease: "backOut",
-        }}
         viewport={{ once: true }}
         animate={{
           r: isHighlighted ? 6 : 5,
           fill: isHighlighted ? ACCENT_COLOR : HUB_COLOR,
         }}
         transition={{
-          duration: 0.3,
+          duration: isHighlighted ? 0.3 : 0.5,
+          delay: isHighlighted ? 0 : delay,
+          ease: "backOut",
         }}
       />
 
@@ -313,9 +332,7 @@ function ConnectionNode({
             opacity: 1,
             scale: 1,
           }}
-          transition={{
-            duration: 0.3,
-          }}
+          transition={{ duration: 0.3 }}
         />
       )}
     </motion.g>
@@ -368,16 +385,13 @@ function CurvedLine({
         fill="none"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{
-          duration: 0.5,
-          delay: delay + 1.2,
-        }}
         viewport={{ once: true, margin: "-100px" }}
         animate={{
           stroke: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           strokeWidth: isHighlighted ? 2 : 1.5,
         }}
         transition={{
+          opacity: { duration: 0.5, delay: delay + 1.2 },
           stroke: { duration: 0.3 },
           strokeWidth: { duration: 0.3 },
         }}
@@ -434,11 +448,6 @@ function CurvedLine({
           fill={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.3,
-            delay: delay + 1.3,
-            ease: "backOut",
-          }}
           viewport={{ once: true }}
           animate={{
             r: isHighlighted ? 3.5 : 3,
@@ -446,6 +455,8 @@ function CurvedLine({
           }}
           transition={{
             duration: 0.3,
+            delay: delay + 1.3,
+            ease: "backOut",
           }}
         />
       )}
@@ -459,11 +470,6 @@ function CurvedLine({
           fill={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.3,
-            delay: delay + 1.3,
-            ease: "backOut",
-          }}
           viewport={{ once: true }}
           animate={{
             r: isHighlighted ? 3.5 : 3,
@@ -471,6 +477,8 @@ function CurvedLine({
           }}
           transition={{
             duration: 0.3,
+            delay: delay + 1.3,
+            ease: "backOut",
           }}
         />
       )}
@@ -573,10 +581,16 @@ export function VisionSection() {
   };
 
   useEffect(() => {
-    const timer = setTimeout(updatePositions, 300);
+    // Initial update after a delay to ensure cards are mounted
+    const timer1 = setTimeout(updatePositions, 300);
+    // Second update to catch any late-mounted cards
+    const timer2 = setTimeout(updatePositions, 1000);
+
     window.addEventListener("resize", updatePositions);
+
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
       window.removeEventListener("resize", updatePositions);
     };
   }, []);
@@ -594,13 +608,14 @@ export function VisionSection() {
 
   return (
     <section
+      id="vision"
       className="w-full py-16 md:py-20 lg:py-28 px-5 md:px-10 lg:px-16"
       style={{ background: BG_COLOR }}
     >
       <div className="max-w-[1700px] mx-auto">
         {/* Header */}
         <motion.div
-          className="text-center mb-12 md:mb-16"
+          className="text-center mb-8 md:mb-12 lg:mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -613,8 +628,16 @@ export function VisionSection() {
             Notre Vision
           </p>
           <h2 className="text-[28px] md:text-[38px] lg:text-[48px] leading-[1.1] tracking-[-0.02em] mb-5 max-w-[850px] mx-auto">
-            L'approche moderne de l'acquisition
+            L&apos;approche moderne de l&apos;acquisition
           </h2>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-[14px] md:text-[15px] font-semibold tracking-[0.08em] mb-5 text-white shadow-[0_10px_24px_rgba(183,71,42,0.25)] hover:shadow-[0_14px_30px_rgba(183,71,42,0.35)] transition-all duration-300 hover:-translate-y-0.5"
+            style={{ background: '#B7472A' }}
+          >
+            Échangez avec un fondateur
+            <span aria-hidden="true">→</span>
+          </a>
           <p className="text-[15px] md:text-[17px] text-[#666666] leading-[1.65] max-w-[680px] mx-auto">
             Tholex devient le hub central pour toutes vos
             fonctions support, vous permettant de vous
@@ -682,20 +705,23 @@ export function VisionSection() {
               delay={1.4}
             />
 
-            {/* RIGHT SIDE: Right Junction Node → Acquisition Cards */}
-            {cardPositions.right.map((cardPos, index) => {
-              const acqId = acquisitions[index].id;
+            {/* RIGHT SIDE: Acquisition Cards → Right Junction Node */}
+            {acquisitions.map((acquisition, index) => {
+              const cardPos = cardPositions.right[index];
+              if (!cardPos || cardPos.x === 0) return null;
+
+              const acqId = acquisition.id;
               const isHighlighted =
                 hoveredCard === acqId || hoveredCard === "hub";
 
               return (
                 <CurvedLine
                   key={`right-card-${acqId}`}
-                  from={rightNodePos}
-                  to={cardPos}
+                  from={cardPos}
+                  to={rightNodePos}
                   isHighlighted={isHighlighted}
-                  delay={1.5 + index * 0.12}
-                  showEndDot={true}
+                  delay={0.5 + index * 0.08}
+                  showStartDot={true}
                 />
               );
             })}
@@ -757,18 +783,85 @@ export function VisionSection() {
           </div>
         </div>
 
-        {/* Bottom hint */}
         <motion.div
-          className="text-center mt-8 md:mt-10"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 1.8 }}
-          viewport={{ once: true }}
+          className="text-center mt-12 md:mt-16"
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          viewport={{ once: true, margin: "-120px" }}
         >
-          <p className="text-[13px] text-[#999999] italic">
-            Survolez les cartes pour voir les connexions
-            ramifiées s'animer
+          <h3 className="text-[22px] md:text-[26px] font-semibold text-[#1f1f1f] tracking-[-0.01em]">
+            Vous restez concentré sur l’essentiel, nous prenons le reste
+          </h3>
+          <p className="mt-3 text-[14px] md:text-[16px] text-[#666666] max-w-[520px] mx-auto leading-[1.7]">
+            Tholex absorbe vos fonctions support pour que vous puissiez poursuivre ce qui fait la valeur de votre entreprise : vos clients, vos équipes et votre qualité de service.
           </p>
+        </motion.div>
+
+        {/* Benefits Cards - What founders can focus on */}
+        <motion.div
+          className="mt-10 md:mt-12 lg:mt-16 flex justify-between items-stretch gap-6 md:gap-8 max-w-[1400px] mx-auto px-4"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+          viewport={{ once: true, margin: "-120px" }}
+        >
+          {/* Card 1: Relation Client */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 1.1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#E63946] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
+          >
+            <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
+              <UserCheck className="w-8 h-8 text-[#E63946]" strokeWidth={2} />
+            </div>
+            <h4 className="text-[16px] md:text-[17px] font-bold text-[#333333] text-center mb-3 leading-tight">
+              Relation Client
+            </h4>
+            <p className="text-[12px] md:text-[13px] text-[#666666] text-center leading-relaxed">
+              Cultivez vos comptes clés et développez votre portefeuille commercial
+            </p>
+          </motion.div>
+
+          {/* Card 2: Formation Interne */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 1.2 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#E63946] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
+          >
+            <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
+              <GraduationCap className="w-8 h-8 text-[#E63946]" strokeWidth={2} />
+            </div>
+            <h4 className="text-[16px] md:text-[17px] font-bold text-[#333333] text-center mb-3 leading-tight">
+              Formation Interne
+            </h4>
+            <p className="text-[12px] md:text-[13px] text-[#666666] text-center leading-relaxed">
+              Transmettez votre savoir-faire et faites monter en compétences vos équipes
+            </p>
+          </motion.div>
+
+          {/* Card 3: Qualité de Service */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 1.3 }}
+            viewport={{ once: true, margin: "-100px" }}
+            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#E63946] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
+          >
+            <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
+              <Award className="w-8 h-8 text-[#E63946]" strokeWidth={2} />
+            </div>
+            <h4 className="text-[16px] md:text-[17px] font-bold text-[#333333] text-center mb-3 leading-tight">
+              Qualité de Service
+            </h4>
+            <p className="text-[12px] md:text-[13px] text-[#666666] text-center leading-relaxed">
+              Garantissez l&apos;excellence opérationnelle et la satisfaction client
+            </p>
+          </motion.div>
         </motion.div>
       </div>
     </section>
