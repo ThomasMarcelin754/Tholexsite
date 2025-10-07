@@ -308,17 +308,16 @@ function ConnectionNode({
         strokeWidth="2.5"
         initial={{ opacity: 0, scale: 0 }}
         whileInView={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 0.5,
-          delay,
-          ease: "backOut",
-        }}
         viewport={{ once: true }}
         animate={{
           r: isHighlighted ? 6 : 5,
           fill: isHighlighted ? ACCENT_COLOR : HUB_COLOR,
         }}
-        transition={{ duration: 0.3 }}
+        transition={{
+          duration: isHighlighted ? 0.3 : 0.5,
+          delay: isHighlighted ? 0 : delay,
+          ease: "backOut",
+        }}
       />
 
       {/* Inner highlight dot when highlighted */}
@@ -386,16 +385,16 @@ function CurvedLine({
         fill="none"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
-        transition={{
-          duration: 0.5,
-          delay: delay + 1.2,
-        }}
         viewport={{ once: true, margin: "-100px" }}
         animate={{
           stroke: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           strokeWidth: isHighlighted ? 2 : 1.5,
         }}
-        transition={{ stroke: { duration: 0.3 }, strokeWidth: { duration: 0.3 } }}
+        transition={{
+          opacity: { duration: 0.5, delay: delay + 1.2 },
+          stroke: { duration: 0.3 },
+          strokeWidth: { duration: 0.3 },
+        }}
       />
 
       {/* LAYER 2: Animated drawing effect (transparent, just for visual draw-in) */}
@@ -449,17 +448,16 @@ function CurvedLine({
           fill={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.3,
-            delay: delay + 1.3,
-            ease: "backOut",
-          }}
           viewport={{ once: true }}
           animate={{
             r: isHighlighted ? 3.5 : 3,
             fill: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{
+            duration: 0.3,
+            delay: delay + 1.3,
+            ease: "backOut",
+          }}
         />
       )}
 
@@ -472,17 +470,16 @@ function CurvedLine({
           fill={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.3,
-            delay: delay + 1.3,
-            ease: "backOut",
-          }}
           viewport={{ once: true }}
           animate={{
             r: isHighlighted ? 3.5 : 3,
             fill: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           }}
-          transition={{ duration: 0.3 }}
+          transition={{
+            duration: 0.3,
+            delay: delay + 1.3,
+            ease: "backOut",
+          }}
         />
       )}
     </g>
