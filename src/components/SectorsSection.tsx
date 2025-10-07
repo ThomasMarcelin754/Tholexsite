@@ -163,7 +163,6 @@ export function SectorsSection() {
                   ${isActive ? 'ring-2 shadow-xl scale-[1.02]' : 'hover:scale-[1.02]'}
                 `}
                 style={{
-                  // @ts-expect-error - Tailwind CSS variable
                   '--tw-ring-color': isActive ? RUST : 'transparent'
                 } as React.CSSProperties}
               >
