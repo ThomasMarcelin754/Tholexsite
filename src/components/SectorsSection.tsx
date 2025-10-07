@@ -163,7 +163,7 @@ export function SectorsSection() {
                   ${isActive ? 'ring-2 shadow-xl scale-[1.02]' : 'hover:scale-[1.02]'}
                 `}
                 style={{
-                  ringColor: isActive ? RUST : 'transparent'
+                  ['--tw-ring-color' as any]: isActive ? RUST : 'transparent'
                 }}
               >
                 {/* Background Image - Only for maintenance-technique */}
