@@ -1,11 +1,21 @@
 import { useState } from "react";
-import { Wrench, Home, Zap, Trees, Settings, Building2, Users, DollarSign, Heart, ChevronDown } from "lucide-react";
+import { Wrench, Home, Zap, Trees, Settings, Building2, Users, DollarSign, Heart, ChevronDown, type LucideIcon } from "lucide-react";
 import maintenanceImg from "figma:asset/4680e076095b53d9c130a9e9e6bc33d8749cd849.png";
 import type { StaticImageData } from "next/image";
 
 const RUST = "#B7472A";
 
-const sectors = [
+interface Sector {
+  id: string;
+  title: string;
+  icon: LucideIcon;
+  bgColor: string;
+  iconColor: string;
+  bgImage?: string | StaticImageData;
+  subSectors: string[];
+}
+
+const sectors: Sector[] = [
   {
     id: "maintenance-technique",
     title: "Maintenance Technique Bâtiment",
