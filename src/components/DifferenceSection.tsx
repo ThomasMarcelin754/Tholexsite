@@ -119,7 +119,7 @@ export function DifferenceSection() {
               }}
             >
               <p className="text-[15px] md:text-[17px] leading-[1.7]" style={{ color: RUST, fontWeight: 500 }}>
-                "Nous ne sommes pas un fonds d'investissement classique. Nous sommes des opérationnels qui rachètent, opèrent et font grandir des PME familiales."
+                &ldquo;Nous ne sommes pas un fonds d&apos;investissement classique. Nous sommes des opérationnels qui rachètent, opèrent et font grandir des PME familiales.&rdquo;
               </p>
             </div>
           </div>

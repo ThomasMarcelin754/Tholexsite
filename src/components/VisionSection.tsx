@@ -318,9 +318,7 @@ function ConnectionNode({
           r: isHighlighted ? 6 : 5,
           fill: isHighlighted ? ACCENT_COLOR : HUB_COLOR,
         }}
-        transition={{
-          duration: 0.3,
-        }}
+        transition={{ duration: 0.3 }}
       />
 
       {/* Inner highlight dot when highlighted */}
@@ -335,9 +333,7 @@ function ConnectionNode({
             opacity: 1,
             scale: 1,
           }}
-          transition={{
-            duration: 0.3,
-          }}
+          transition={{ duration: 0.3 }}
         />
       )}
     </motion.g>
@@ -399,10 +395,7 @@ function CurvedLine({
           stroke: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           strokeWidth: isHighlighted ? 2 : 1.5,
         }}
-        transition={{
-          stroke: { duration: 0.3 },
-          strokeWidth: { duration: 0.3 },
-        }}
+        transition={{ stroke: { duration: 0.3 }, strokeWidth: { duration: 0.3 } }}
       />
 
       {/* LAYER 2: Animated drawing effect (transparent, just for visual draw-in) */}
@@ -466,9 +459,7 @@ function CurvedLine({
             r: isHighlighted ? 3.5 : 3,
             fill: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           }}
-          transition={{
-            duration: 0.3,
-          }}
+          transition={{ duration: 0.3 }}
         />
       )}
 
@@ -491,9 +482,7 @@ function CurvedLine({
             r: isHighlighted ? 3.5 : 3,
             fill: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
           }}
-          transition={{
-            duration: 0.3,
-          }}
+          transition={{ duration: 0.3 }}
         />
       )}
     </g>
@@ -642,7 +631,7 @@ export function VisionSection() {
             Notre Vision
           </p>
           <h2 className="text-[28px] md:text-[38px] lg:text-[48px] leading-[1.1] tracking-[-0.02em] mb-5 max-w-[850px] mx-auto">
-            L'approche moderne de l'acquisition
+            L&apos;approche moderne de l&apos;acquisition
           </h2>
           <a
             href="#contact"
@@ -873,7 +862,7 @@ export function VisionSection() {
               Qualité de Service
             </h4>
             <p className="text-[12px] md:text-[13px] text-[#666666] text-center leading-relaxed">
-              Garantissez l'excellence opérationnelle et la satisfaction client
+              Garantissez l&apos;excellence opérationnelle et la satisfaction client
             </p>
           </motion.div>
         </motion.div>

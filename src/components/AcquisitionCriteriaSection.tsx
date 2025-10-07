@@ -63,7 +63,7 @@ export function AcquisitionCriteriaSection() {
             className="text-[13px] md:text-[14px] tracking-[0.15em] uppercase mb-4 md:mb-6"
             style={{ color: RUST, fontWeight: 500 }}
           >
-            Nos Critères d'Acquisition
+            Nos Critères d&apos;Acquisition
           </p>
           <h2 className="text-[32px] md:text-[42px] lg:text-[52px] leading-[1.1] tracking-[-0.02em] mb-6 max-w-[900px] mx-auto">
             Les PME que nous recherchons

@@ -243,7 +243,7 @@ export function SectorsSection() {
         {/* Footer Message */}
         <div className="text-center max-w-[700px] mx-auto">
           <p className="text-[14px] md:text-[15px] lg:text-[16px] text-[#666666] leading-[1.7]">
-            Votre secteur n'apparaît pas ici ?{" "}
+            Votre secteur n&apos;apparaît pas ici ?{" "}
             <span style={{ color: RUST, fontWeight: 500 }}>Contactez-nous.</span>{" "}
             Nous explorons en permanence de nouveaux marchés fragmentés.
           </p>

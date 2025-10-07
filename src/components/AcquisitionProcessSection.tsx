@@ -77,7 +77,7 @@ export function AcquisitionProcessSection() {
               className="text-[12px] md:text-[13px] tracking-[0.2em] uppercase mb-6"
               style={{ color: RUST, fontWeight: 500 }}
             >
-              PROCESSUS D'ACQUISITION
+              PROCESSUS D&apos;ACQUISITION
             </p>
             
             <h2 className="text-[36px] md:text-[44px] lg:text-[52px] leading-[1.1] tracking-[-0.02em] mb-6">
@@ -85,7 +85,7 @@ export function AcquisitionProcessSection() {
             </h2>
             
             <p className="text-[15px] md:text-[16px] lg:text-[17px] text-[#666666] leading-[1.7] mb-8 md:mb-10 max-w-[500px]">
-              Rejoignez un groupe qui valorise l'entrepreneuriat familial et accédez à des opportunités de croissance structurée aux côtés de Tholex.
+              Rejoignez un groupe qui valorise l&apos;entrepreneuriat familial et accédez à des opportunités de croissance structurée aux côtés de Tholex.
             </p>
             
             <button

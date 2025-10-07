@@ -54,7 +54,7 @@ export function FoundersSection() {
             </p>
             
             <h2 className="text-[36px] md:text-[44px] lg:text-[52px] leading-[1.1] tracking-[-0.02em] mb-6">
-              L'équipe derrière Tholex
+              L&apos;équipe derrière Tholex
             </h2>
             
             <p className="text-[15px] md:text-[16px] lg:text-[17px] text-[#666666] leading-[1.7] max-w-[500px]">

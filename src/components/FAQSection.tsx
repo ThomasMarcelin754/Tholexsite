@@ -50,7 +50,7 @@ export function FAQSection() {
             </p>
 
             <h2 className="text-[36px] md:text-[44px] lg:text-[52px] leading-[1.1] tracking-[-0.02em] mb-6">
-              FAQ's
+              FAQ&apos;s
             </h2>
 
             <p className="text-[15px] md:text-[16px] lg:text-[17px] text-[#666666] leading-[1.7] mb-8 md:mb-10 max-w-[500px]">
