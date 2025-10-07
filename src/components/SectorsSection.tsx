@@ -163,8 +163,9 @@ export function SectorsSection() {
                   ${isActive ? 'ring-2 shadow-xl scale-[1.02]' : 'hover:scale-[1.02]'}
                 `}
                 style={{
-                  ['--tw-ring-color' as any]: isActive ? RUST : 'transparent'
-                }}
+                  // @ts-ignore - Tailwind CSS variable
+                  '--tw-ring-color': isActive ? RUST : 'transparent'
+                } as React.CSSProperties}
               >
                 {/* Background Image - Only for maintenance-technique */}
                 {sector.bgImage && (
