@@ -115,7 +115,7 @@ export function AcquisitionProcessSection() {
                 return (
                   <div
                     key={step.number}
-                    ref={(el) => (cardsRef.current[index] = el)}
+                    ref={(el) => { if (el) cardsRef.current[index] = el; }}
                     className="relative"
                   >
                     {/* Timeline Node - Desktop */}
