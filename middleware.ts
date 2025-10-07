@@ -10,6 +10,12 @@ const PUBLIC_FILE = /\.(.*)$/;
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Allow the root path through so the default page keeps working while
+  // localized routes are not yet implemented.
+  if (pathname === '/' || pathname === '') {
+    return NextResponse.next();
+  }
+
   // Skip next internals, api routes, and public files
   if (
     pathname.startsWith("/_next") ||

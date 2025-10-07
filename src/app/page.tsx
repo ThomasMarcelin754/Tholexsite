@@ -1,22 +1,28 @@
-import { Hero } from '@/components/Hero';
-import { SectionDealGate } from '@/components/SectionDealGate';
-import { CtaSection } from '@/components/sections/CtaSection';
-import { FoundersSection } from '@/components/sections/FoundersSection';
-import { FooterSection } from '@/components/sections/FooterSection';
-import { VisionSection } from '@/components/sections/VisionSection';
+import { Header } from '../components/Header';
+import { HeroSection } from '../components/HeroSection';
+import { VisionSection } from '../components/VisionSection';
+import { CapabilitiesSection } from '../components/CapabilitiesSection';
+import { AcquisitionCriteriaSection } from '../components/AcquisitionCriteriaSection';
+import { SectorsSection } from '../components/SectorsSection';
+import { AcquisitionProcessSection } from '../components/AcquisitionProcessSection';
+import { FoundersSection } from '../components/FoundersSection';
+import { FAQSection } from '../components/FAQSection';
+import { CTASection } from '../components/CTASection';
+import { FooterSection } from '../components/FooterSection';
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <main id="main" className="flex-1">
-        <Hero />
-        <VisionSection />
-        <SectionDealGate />
-        <div id="about" className="scroll-mt-24">
-          <FoundersSection />
-        </div>
-        <CtaSection />
-      </main>
+    <div className="min-h-screen bg-white">
+      <Header />
+      <HeroSection />
+      <VisionSection />
+      <CapabilitiesSection />
+      <AcquisitionCriteriaSection />
+      <SectorsSection />
+      <AcquisitionProcessSection />
+      <FoundersSection />
+      <FAQSection />
+      <CTASection />
       <FooterSection />
     </div>
   );
