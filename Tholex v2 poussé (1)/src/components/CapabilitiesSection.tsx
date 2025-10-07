@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Calculator, Scale, Users, Monitor, Package, Megaphone, TrendingUp, LucideIcon } from "lucide-react";
 import financeImg from "figma:asset/6db9e7bc0643a1ba94b7c9d6d390429317c1145a.png";
+import type { StaticImageData } from "next/image";
 
 const RUST = "#B7472A";
 
@@ -10,7 +11,7 @@ interface Capability {
   title: string;
   teaser: string;
   bullets: string[];
-  image?: string;
+  image?: string | StaticImageData;
 }
 
 const capabilities: Capability[] = [
