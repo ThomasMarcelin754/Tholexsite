@@ -214,8 +214,8 @@ export function CapabilitiesSection() {
                   {isActiveMobile && capability.image && (
                     <div className="lg:hidden px-3 pb-6">
                       <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-gradient-to-br from-[#fafafa] to-[#f5f5f5] border border-[#e5e5e5]">
-                        <img 
-                          src={capability.image}
+                        <img
+                          src={typeof capability.image === 'string' ? capability.image : capability.image.src}
                           alt={capability.title}
                           className="absolute inset-0 w-full h-full object-cover"
                         />
@@ -234,8 +234,8 @@ export function CapabilitiesSection() {
             <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#fafafa] to-[#f5f5f5] border border-[#e5e5e5]">
               {/* Image or Placeholder */}
               {activeCapability.image ? (
-                <img 
-                  src={activeCapability.image}
+                <img
+                  src={typeof activeCapability.image === 'string' ? activeCapability.image : activeCapability.image.src}
                   alt={activeCapability.title}
                   className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
                 />
