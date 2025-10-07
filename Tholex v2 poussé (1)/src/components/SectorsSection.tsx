@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Wrench, Home, Zap, Trees, Settings, Building2, Users, DollarSign, Heart, ChevronDown } from "lucide-react";
 import maintenanceImg from "figma:asset/4680e076095b53d9c130a9e9e6bc33d8749cd849.png";
+import type { StaticImageData } from "next/image";
 
 const RUST = "#B7472A";
 
@@ -167,9 +168,9 @@ export function SectorsSection() {
                 {/* Background Image - Only for maintenance-technique */}
                 {sector.bgImage && (
                   <div className="absolute inset-0 z-0">
-                    <img 
-                      src={sector.bgImage} 
-                      alt="" 
+                    <img
+                      src={typeof sector.bgImage === 'string' ? sector.bgImage : sector.bgImage.src}
+                      alt=""
                       className="w-full h-full object-cover"
                     />
                     {/* Voile blanc/transparent pour atténuer l'image */}
