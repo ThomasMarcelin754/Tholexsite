@@ -65,9 +65,10 @@ export function AcquisitionProcessSection() {
   }, []);
 
   return (
-    <section 
+    <section
       id="processus"
-      className="w-full bg-[#FAFAFA] py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]"
+      className="w-full py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]"
+      style={{ backgroundColor: "#FFF9F5" }}
     >
       <div className="max-w-[1600px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20">

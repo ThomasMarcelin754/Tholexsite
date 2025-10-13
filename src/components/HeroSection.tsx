@@ -17,7 +17,7 @@ export function HeroSection() {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen min-h-[100dvh] flex items-center px-5 md:px-10 lg:px-[80px] overflow-hidden">
+    <section className="relative w-full min-h-screen min-h-[100dvh] flex items-center overflow-hidden">
       {/* Video Background - French Riviera Full Screen */}
       <div className="absolute inset-0 z-0">
         <video
@@ -41,9 +41,9 @@ export function HeroSection() {
         />
       </div>
 
-      {/* Content - Left Aligned */}
-      <div className="relative z-10 max-w-[1600px] w-full mx-auto pt-20 md:pt-28 lg:pt-32">
-        <div className="max-w-[600px]">
+      {/* Content - Aligned with Navbar */}
+      <div className="relative z-10 w-[95%] max-w-[1400px] mx-auto pt-20 md:pt-28 lg:pt-32">
+        <div className="max-w-[600px] px-6 md:px-8 lg:px-10">
           {/* Badge */}
           <div 
             className="inline-block px-4 py-2 rounded-full mb-8 backdrop-blur-sm"

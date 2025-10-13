@@ -177,23 +177,29 @@ export function SectorsSection() {
                       sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       priority={sector.id === "maintenance-technique"}
                     />
-                    {/* Filtre doux pour fondre l'image dans la carte */}
-                    <div className="absolute inset-0 bg-white/85 backdrop-blur-md transition-all duration-300" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/80 via-white/60 to-white/80 transition-opacity duration-300" />
+                    {/* Effet Liquid Glass - transparence et flou */}
+                    <div
+                      className="absolute inset-0 transition-all duration-300"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.02)',
+                        backdropFilter: 'blur(3px) saturate(110%)',
+                        WebkitBackdropFilter: 'blur(3px) saturate(110%)'
+                      }}
+                    />
                   </div>
                 )}
                 {/* Header: Icon + Title + Chevron */}
                 <div className="w-full flex items-start justify-between gap-4 relative z-10">
                   <div className="flex items-start gap-4 md:gap-5 flex-1">
                     {/* Icon */}
-                    <div 
+                    <div
                       className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center flex-shrink-0"
                       style={{
                         background: 'white',
                         border: `1px solid ${RUST}20`
                       }}
                     >
-                      <Icon 
+                      <Icon
                         className="w-6 h-6 md:w-7 md:h-7"
                         style={{ color: sector.iconColor }}
                         strokeWidth={1.5}
@@ -207,7 +213,7 @@ export function SectorsSection() {
                   </div>
 
                   {/* Chevron */}
-                  <ChevronDown 
+                  <ChevronDown
                     className={`w-5 h-5 md:w-6 md:h-6 flex-shrink-0 transition-transform duration-300 mt-2 ${isActive ? 'rotate-180' : ''}`}
                     style={{ color: RUST }}
                     strokeWidth={2}
@@ -215,7 +221,7 @@ export function SectorsSection() {
                 </div>
 
                 {/* Sub-sectors List */}
-                <div 
+                <div
                   className={`
                     w-full overflow-hidden transition-all duration-300 relative z-10
                     ${isActive ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}
@@ -224,7 +230,7 @@ export function SectorsSection() {
                   <div className="pt-2 border-t border-black/10">
                     <ul className="space-y-2 mt-4">
                       {sector.subSectors.map((subSector, idx) => (
-                        <li 
+                        <li
                           key={idx}
                           className="text-[13px] md:text-[14px] text-[#444444] leading-[1.6] flex items-start gap-2"
                         >

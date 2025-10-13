@@ -7,6 +7,18 @@ import {
 
 const RUST = "#B7472A";
 
+// Style pour améliorer l'animation d'accordion
+const accordionStyle = `
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  [data-state="closed"] [data-slot="accordion-content"] > div {
+    animation: fadeOut 150ms ease-out;
+  }
+`;
+
 const faqs = [
   {
     id: "role",
@@ -37,8 +49,13 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section className="w-full bg-[#FAFAFA] py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]">
-      <div className="max-w-[1600px] mx-auto">
+    <>
+      <style dangerouslySetInnerHTML={{ __html: accordionStyle }} />
+      <section
+        className="w-full py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]"
+        style={{ backgroundColor: "#FFF9F5" }}
+      >
+        <div className="max-w-[1600px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20">
           {/* Left Side - Sticky Content */}
           <div className="lg:sticky lg:top-[120px] lg:self-start flex flex-col">
@@ -71,13 +88,13 @@ export function FAQSection() {
           </div>
 
           {/* Right Side - FAQ Accordion */}
-          <div>
-            <Accordion type="single" collapsible className="w-full space-y-4">
+          <div className="pb-3">
+            <Accordion type="single" collapsible className="w-full flex flex-col gap-4">
               {faqs.map((faq) => (
                 <AccordionItem
                   key={faq.id}
                   value={faq.id}
-                  className="border rounded-xl px-6 md:px-8 bg-white border-[#e5e5e5] data-[state=open]:border-[#B7472A] transition-all duration-300"
+                  className="border-2 rounded-xl px-6 md:px-8 bg-white border-[#e5e5e5] data-[state=open]:border-[#B7472A] transition-all duration-300"
                 >
                   <AccordionTrigger
                     className="py-5 md:py-6 hover:no-underline text-left"
@@ -101,5 +118,6 @@ export function FAQSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

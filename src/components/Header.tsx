@@ -1,6 +1,24 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
 export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Considérer scrollé après 80vh (environ la fin de la hero section)
+      setIsScrolled(window.scrollY > window.innerHeight * 0.8);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header 
+    <header
       className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-[1400px] rounded-2xl transition-all duration-300"
       style={{
         background: 'rgba(255, 255, 255, 0.1)',
@@ -14,11 +32,11 @@ export function Header() {
         <div className="flex items-center justify-between gap-6 w-full">
           {/* Logo THOLEX */}
           <div
-            className="uppercase tracking-[0.15em] shrink-0"
+            className="uppercase tracking-[0.15em] shrink-0 transition-colors duration-300"
             style={{
               fontSize: '18px',
               fontWeight: 700,
-              color: '#1a1a1a',
+              color: isScrolled ? '#1a1a1a' : '#ffffff',
               fontFamily: 'system-ui, -apple-system, sans-serif'
             }}
           >
@@ -32,7 +50,7 @@ export function Header() {
               style={{
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#444444'
+                color: isScrolled ? '#444444' : '#ffffff'
               }}
               className="hover:opacity-70 transition-all whitespace-nowrap lg:text-[15px]"
             >
@@ -43,7 +61,7 @@ export function Header() {
               style={{
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#444444'
+                color: isScrolled ? '#444444' : '#ffffff'
               }}
               className="hover:opacity-70 transition-all whitespace-nowrap lg:text-[15px]"
             >
@@ -54,7 +72,7 @@ export function Header() {
               style={{
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#444444'
+                color: isScrolled ? '#444444' : '#ffffff'
               }}
               className="hover:opacity-70 transition-all whitespace-nowrap lg:text-[15px]"
             >
@@ -65,7 +83,7 @@ export function Header() {
               style={{
                 fontSize: '14px',
                 fontWeight: 500,
-                color: '#444444'
+                color: isScrolled ? '#444444' : '#ffffff'
               }}
               className="hover:opacity-70 transition-all whitespace-nowrap lg:text-[15px]"
             >
@@ -87,40 +105,26 @@ export function Header() {
             Discutons →
           </a>
 
-          {/* Mobile CTA */}
-          <div className="md:hidden flex items-center gap-2 ml-auto">
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-sm font-semibold text-white"
-              style={{
-                background: '#B7472A',
-                boxShadow: '0 6px 18px rgba(183, 71, 42, 0.25)'
-              }}
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 ml-auto transition-colors duration-300"
+            style={{ color: isScrolled ? '#1a1a1a' : '#ffffff' }}
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              Discutons
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 10.5L9 7L5 3.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </a>
-
-            {/* Mobile menu button */}
-            <button className="p-2" style={{ color: '#1a1a1a' }}>
-              <svg 
-                width="24" 
-                height="24" 
-                viewBox="0 0 24 24" 
-                fill="none" 
-                stroke="currentColor" 
-                strokeWidth="2"
-                strokeLinecap="round" 
-                strokeLinejoin="round"
-              >
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            </button>
-          </div>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
         </div>
       </div>
     </header>

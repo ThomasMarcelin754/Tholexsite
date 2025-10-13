@@ -114,14 +114,14 @@ function FunctionCard({
       className={`
         relative bg-white border rounded-lg px-4 py-3 cursor-pointer w-[170px]
         transition-all duration-300 ease-out
-        ${isHighlighted ? "border-[#E63946] shadow-md" : "border-[#e5e5e5] hover:border-[#d1d1d1]"}
+        ${isHighlighted ? "border-[#B7472A] shadow-md" : "border-[#e5e5e5] hover:border-[#d1d1d1]"}
       `}
     >
       <div className="flex items-center gap-3">
         <div
           className={`
             w-8 h-8 flex-shrink-0 rounded-md flex items-center justify-center transition-all duration-300
-            ${isHighlighted ? "bg-[#E63946]" : "bg-[#f8f8f8]"}
+            ${isHighlighted ? "bg-[#B7472A]" : "bg-[#f8f8f8]"}
           `}
         >
           <Icon
@@ -130,7 +130,7 @@ function FunctionCard({
           />
         </div>
         <span
-          className={`text-[13px] transition-colors duration-300 ${isHighlighted ? "text-[#E63946]" : "text-[#333333]"}`}
+          className={`text-[13px] transition-colors duration-300 ${isHighlighted ? "text-[#B7472A]" : "text-[#333333]"}`}
           style={{ fontWeight: 500 }}
         >
           {label}
@@ -163,10 +163,10 @@ function HubCard({
       <div
         className={`
           relative rounded-xl px-8 py-6 border-2 transition-all duration-300
-          ${isHighlighted ? "border-[#E63946] shadow-lg" : "border-[#B7472A]"}
+          ${isHighlighted ? "border-[#B7472A] shadow-lg" : "border-[#B7472A]"}
         `}
         style={{
-          background: isHighlighted ? ACCENT_COLOR : HUB_COLOR,
+          background: HUB_COLOR,
         }}
       >
         <div className="text-center">
@@ -223,7 +223,7 @@ function AcquisitionCard({
       `}
       style={{
         background: isHighlighted ? "#f8f8f8" : "#f3f3f5",
-        border: `1.5px solid ${isHighlighted ? ACCENT_COLOR : "transparent"}`,
+        border: `1.5px solid ${isHighlighted ? HUB_COLOR : "transparent"}`,
       }}
     >
       <div className="flex items-center gap-3">
@@ -247,7 +247,7 @@ function AcquisitionCard({
         {/* Info */}
         <div className="flex-1 min-w-0">
           <p
-            className={`text-[13px] truncate transition-colors duration-300 ${isHighlighted ? "text-[#E63946]" : "text-[#333333]"}`}
+            className={`text-[13px] truncate transition-colors duration-300 ${isHighlighted ? "text-[#B7472A]" : "text-[#333333]"}`}
             style={{ fontWeight: 600 }}
           >
             {acquisition.name}
@@ -283,7 +283,7 @@ function ConnectionNode({
           cy={y}
           r="14"
           fill="none"
-          stroke={ACCENT_COLOR}
+          stroke={HUB_COLOR}
           strokeWidth="1.5"
           initial={{ opacity: 0.25, scale: 0.4 }}
           animate={{
@@ -303,7 +303,7 @@ function ConnectionNode({
         cx={x}
         cy={y}
         r={isHighlighted ? "6" : "5"}
-        fill={isHighlighted ? ACCENT_COLOR : HUB_COLOR}
+        fill={HUB_COLOR}
         stroke="white"
         strokeWidth="2.5"
         initial={{ opacity: 0, scale: 0 }}
@@ -311,7 +311,7 @@ function ConnectionNode({
         viewport={{ once: true }}
         animate={{
           r: isHighlighted ? 6 : 5,
-          fill: isHighlighted ? ACCENT_COLOR : HUB_COLOR,
+          fill: HUB_COLOR,
         }}
         transition={{
           duration: isHighlighted ? 0.3 : 0.5,
@@ -378,7 +378,7 @@ function CurvedLine({
       {/* LAYER 1: Static dashed line (always visible) */}
       <motion.path
         d={path}
-        stroke={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
+        stroke={isHighlighted ? HUB_COLOR : GRAY_LINE}
         strokeWidth={isHighlighted ? "2" : "1.5"}
         strokeDasharray="4 4"
         strokeLinecap="round"
@@ -387,7 +387,7 @@ function CurvedLine({
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-100px" }}
         animate={{
-          stroke: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
+          stroke: isHighlighted ? HUB_COLOR : GRAY_LINE,
           strokeWidth: isHighlighted ? 2 : 1.5,
         }}
         transition={{
@@ -401,7 +401,7 @@ function CurvedLine({
       <motion.path
         ref={pathRef}
         d={path}
-        stroke={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
+        stroke={isHighlighted ? HUB_COLOR : GRAY_LINE}
         strokeWidth={isHighlighted ? "2" : "1.5"}
         strokeDasharray={`${pathLength} ${pathLength}`}
         strokeDashoffset={pathLength}
@@ -422,7 +422,7 @@ function CurvedLine({
       {isHighlighted && (
         <motion.path
           d={path}
-          stroke={ACCENT_COLOR}
+          stroke={HUB_COLOR}
           strokeWidth="2"
           strokeDasharray="4 4"
           strokeLinecap="round"
@@ -445,13 +445,13 @@ function CurvedLine({
           cx={from.x}
           cy={from.y}
           r={isHighlighted ? "3.5" : "3"}
-          fill={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
+          fill={isHighlighted ? HUB_COLOR : GRAY_LINE}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           animate={{
             r: isHighlighted ? 3.5 : 3,
-            fill: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
+            fill: isHighlighted ? HUB_COLOR : GRAY_LINE,
           }}
           transition={{
             duration: 0.3,
@@ -467,13 +467,13 @@ function CurvedLine({
           cx={to.x}
           cy={to.y}
           r={isHighlighted ? "3.5" : "3"}
-          fill={isHighlighted ? ACCENT_COLOR : GRAY_LINE}
+          fill={isHighlighted ? HUB_COLOR : GRAY_LINE}
           initial={{ opacity: 0, scale: 0 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           animate={{
             r: isHighlighted ? 3.5 : 3,
-            fill: isHighlighted ? ACCENT_COLOR : GRAY_LINE,
+            fill: isHighlighted ? HUB_COLOR : GRAY_LINE,
           }}
           transition={{
             duration: 0.3,
@@ -612,10 +612,11 @@ export function VisionSection() {
       className="w-full py-16 md:py-20 lg:py-28 px-5 md:px-10 lg:px-16"
       style={{ background: BG_COLOR }}
     >
-      <div className="max-w-[1700px] mx-auto">
+      {/* Container centré pour tout le contenu */}
+      <div className="flex flex-col items-center mx-auto max-w-[1700px]">
         {/* Header */}
         <motion.div
-          className="text-center mb-8 md:mb-12 lg:mb-14"
+          className="text-center mb-8 md:mb-12 lg:mb-14 w-full"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -645,10 +646,10 @@ export function VisionSection() {
           </p>
         </motion.div>
 
-        {/* Vision Diagram */}
+        {/* Vision Diagram - Centré */}
         <div
           ref={containerRef}
-          className="relative bg-white rounded-2xl p-8 md:p-12 lg:p-20 xl:p-32 border border-[#e5e5e5] overflow-hidden"
+          className="relative bg-white rounded-2xl p-8 md:p-12 lg:p-20 xl:p-32 border border-[#e5e5e5] overflow-hidden w-full"
         >
           {/* SVG Lines Layer */}
           <svg
@@ -784,23 +785,23 @@ export function VisionSection() {
         </div>
 
         <motion.div
-          className="text-center mt-12 md:mt-16"
+          className="text-center mt-12 md:mt-16 w-full"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
           viewport={{ once: true, margin: "-120px" }}
         >
           <h3 className="text-[22px] md:text-[26px] font-semibold text-[#1f1f1f] tracking-[-0.01em]">
-            Vous restez concentré sur l’essentiel, nous prenons le reste
+            Vous restez concentré sur l'essentiel, nous prenons le reste
           </h3>
-          <p className="mt-3 text-[14px] md:text-[16px] text-[#666666] max-w-[520px] mx-auto leading-[1.7]">
+          <p className="mt-3 text-[14px] md:text-[16px] text-[#666666] max-w-[520px] mx-auto leading-[1.7] mb-12 md:mb-16 lg:mb-20">
             Tholex absorbe vos fonctions support pour que vous puissiez poursuivre ce qui fait la valeur de votre entreprise : vos clients, vos équipes et votre qualité de service.
           </p>
         </motion.div>
 
-        {/* Benefits Cards - What founders can focus on */}
+        {/* Benefits Cards - What founders can focus on - Centrées */}
         <motion.div
-          className="mt-10 md:mt-12 lg:mt-16 flex justify-between items-stretch gap-6 md:gap-8 max-w-[1400px] mx-auto px-4"
+          className="flex justify-center items-stretch gap-6 md:gap-8 w-full"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.9 }}
@@ -812,10 +813,10 @@ export function VisionSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 1.1 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#E63946] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
+            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#B7472A] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
           >
             <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
-              <UserCheck className="w-8 h-8 text-[#E63946]" strokeWidth={2} />
+              <UserCheck className="w-8 h-8 text-[#B7472A]" strokeWidth={2} />
             </div>
             <h4 className="text-[16px] md:text-[17px] font-bold text-[#333333] text-center mb-3 leading-tight">
               Relation Client
@@ -831,10 +832,10 @@ export function VisionSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 1.2 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#E63946] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
+            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#B7472A] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
           >
             <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
-              <GraduationCap className="w-8 h-8 text-[#E63946]" strokeWidth={2} />
+              <GraduationCap className="w-8 h-8 text-[#B7472A]" strokeWidth={2} />
             </div>
             <h4 className="text-[16px] md:text-[17px] font-bold text-[#333333] text-center mb-3 leading-tight">
               Formation Interne
@@ -850,10 +851,10 @@ export function VisionSection() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 1.3 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#E63946] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
+            className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#B7472A] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
           >
             <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
-              <Award className="w-8 h-8 text-[#E63946]" strokeWidth={2} />
+              <Award className="w-8 h-8 text-[#B7472A]" strokeWidth={2} />
             </div>
             <h4 className="text-[16px] md:text-[17px] font-bold text-[#333333] text-center mb-3 leading-tight">
               Qualité de Service

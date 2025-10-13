@@ -55,7 +55,7 @@ const criteria = [
 
 export function AcquisitionCriteriaSection() {
   return (
-    <section id="criteres" className="w-full bg-[#fafafa] py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]">
+    <section id="criteres" className="w-full py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]" style={{ backgroundColor: '#FFF9F5' }}>
       <div className="max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="text-center mb-12 md:mb-16 lg:mb-20">

@@ -7,7 +7,6 @@ import { SectorsSection } from '../components/SectorsSection';
 import { AcquisitionProcessSection } from '../components/AcquisitionProcessSection';
 import { FoundersSection } from '../components/FoundersSection';
 import { FAQSection } from '../components/FAQSection';
-import { CTASection } from '../components/CTASection';
 import { FooterSection } from '../components/FooterSection';
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
       <AcquisitionProcessSection />
       <FoundersSection />
       <FAQSection />
-      <CTASection />
       <FooterSection />
     </div>
   );
