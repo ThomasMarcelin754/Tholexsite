@@ -120,11 +120,11 @@ export function CapabilitiesSection() {
 
   return (
     <section id="capacites" className="w-full min-h-[85vh] bg-white py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]">
-      <div className="max-w-[1600px] mx-auto">
+      <div className="mx-auto w-[95%] max-w-[1400px]">
         {/* Split Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 xl:gap-12">
           {/* LEFT SIDE: Section Title + Capabilities List */}
-          <div className="flex flex-col space-y-0">
+          <div className="flex flex-col space-y-0 w-full max-w-[520px] mx-auto lg:mx-0">
             {/* Section Title - Aligned with top of image */}
             <div className="mb-8 lg:mb-12">
               <p 
@@ -241,8 +241,8 @@ export function CapabilitiesSection() {
           </div>
 
           {/* RIGHT SIDE: Visual Panel - Hidden on mobile */}
-          <div className="hidden lg:block lg:sticky lg:top-[100px] h-fit">
-            <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-gradient-to-br from-[#fafafa] to-[#f5f5f5] border border-[#e5e5e5]">
+          <div className="hidden lg:block lg:sticky lg:top-[100px] h-fit pl-0 lg:pl-4 xl:pl-6">
+            <div className="relative w-full aspect-square max-w-[520px] rounded-xl overflow-hidden bg-gradient-to-br from-[#fafafa] to-[#f5f5f5] border border-[#e5e5e5] mx-auto">
               {/* Image or Placeholder */}
               {activeCapability.image ? (
                 <Image

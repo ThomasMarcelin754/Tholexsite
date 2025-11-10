@@ -3,127 +3,131 @@
 import { useState } from 'react';
 import { Wrench, Home, Zap, Trees, Settings, Building2, Users, DollarSign, Heart, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
+import { useContactForm } from '@/contexts/ContactFormContext';
 
 const RUST = "#B7472A";
 
 const sectors = [
   {
     id: "maintenance-technique",
-    title: "Maintenance Technique Bâtiment",
+    title: "Maintenance Technique du Bâtiment",
     icon: Wrench,
     bgColor: "bg-blue-50/80",
     iconColor: RUST,
-    bgImage: "/images/gemini-generate.png",
+    bgImage: "/images/Gemini_Generated_Image_hhpeeyhhpeeyhhpe.png",
     subSectors: [
-      "Sécurité incendie",
-      "Chauffage, ventilation, climatisation",
-      "Ventilation et qualité de l'air intérieur",
-      "Chaudières et ramonage",
-      "Portes et portails automatiques",
-      "Prévention légionellose et eau chaude sanitaire"
+      "Maintenance CVC (Chauffage, Ventilation, Climatisation)",
+      "Ventilation & qualité de l'air intérieur",
+      "Enveloppe & étanchéité du bâtiment",
+      "Chaudières & ramonage",
+      "3D (Dératisation, Désinsectisation, Désinfection)"
     ]
   },
   {
-    id: "enveloppe",
-    title: "Enveloppe Bâtiment",
+    id: "securite-conformite",
+    title: "Sécurité & Conformité Réglementaire",
     icon: Home,
     bgColor: "bg-orange-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_t9yg42t9yg42t9yg.png",
     subSectors: [
-      "Toitures",
-      "Zinguerie",
-      "Étanchéité",
-      "Diagnostics techniques réglementaires"
+      "Sécurité incendie",
+      "Diagnostics réglementaires",
+      "Contrôle et traitement légionelles"
     ]
   },
   {
-    id: "energie",
-    title: "Énergie & Installations Électriques",
+    id: "installations-electriques",
+    title: "Installations Électriques & Accès",
     icon: Zap,
     bgColor: "bg-amber-50/70",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_behcaabehcaabehc.png",
     subSectors: [
-      "Bornes de recharge véhicules électriques",
-      "Certification et audit énergétique",
-      "Nettoyage panneaux photovoltaïques",
-      "Maintenance panneaux photovoltaïques"
+      "Installations électriques",
+      "Bornes de recharge électrique",
+      "Contrôle d'accès bâtiment"
     ]
   },
   {
-    id: "espaces-exterieurs",
-    title: "Espaces Extérieurs & Aménagements",
+    id: "espaces-verts",
+    title: "Espaces Verts & Paysage",
     icon: Trees,
     bgColor: "bg-emerald-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_bet0rabet0rabet0 (1).png",
     subSectors: [
-      "Installations sportives",
-      "Balayage de voirie",
-      "Marquage au sol",
       "Élagage urbain",
-      "Aménagements paysagers",
-      "Entretien de piscines"
+      "Entretien paysager",
+      "Maintenance panneaux photovoltaïques (extérieurs)"
     ]
   },
   {
-    id: "maintenance-specialisee",
-    title: "Maintenance Spécialisée",
+    id: "voirie-marquage",
+    title: "Voirie & Marquage",
     icon: Settings,
     bgColor: "bg-violet-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_oey161oey161oey1.png",
     subSectors: [
-      "Maintenance de véhicules lourds",
-      "Hottes de cuisine professionnelle",
-      "Bacs à graisse",
-      "Dératisation",
-      "Désinsectisation",
-      "Désinfection"
+      "Marquage au sol",
+      "Voirie"
     ]
   },
   {
-    id: "services-immobiliers",
-    title: "Services Immobiliers",
+    id: "installations-sportives",
+    title: "Installations Sportives & Aquatiques",
     icon: Building2,
     bgColor: "bg-cyan-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_ty4cp7ty4cp7ty4c.png",
     subSectors: [
-      "Gestion locative"
+      "Gestion installations sportives",
+      "Entretien piscines"
     ]
   },
   {
-    id: "services-rh",
-    title: "Services RH & Paie",
+    id: "ressources-humaines",
+    title: "Ressources Humaines",
     icon: Users,
     bgColor: "bg-pink-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_j1mjd8j1mjd8j1mj.png",
     subSectors: [
-      "Gestion des temps et des activités"
+      "Intérim / Staffing",
+      "Gestion des temps et activités (GTA)"
     ]
   },
   {
-    id: "services-financiers",
-    title: "Services Financiers",
+    id: "equipements-specialises",
+    title: "Équipements Spécialisés",
     icon: DollarSign,
     bgColor: "bg-teal-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_ot5n6zot5n6zot5n.png",
     subSectors: [
-      "Courtage en assurance"
+      "Maintenance véhicules lourds",
+      "Entretien cuisine professionnelle"
     ]
   },
   {
-    id: "services-sante",
-    title: "Services Bien-Être",
+    id: "autres-services",
+    title: "Autres Services",
     icon: Heart,
     bgColor: "bg-rose-50/60",
     iconColor: RUST,
+    bgImage: "/images/Gemini_Generated_Image_dkzzo4dkzzo4dkzz.png",
     subSectors: [
-      "Cliniques de médecine esthétique",
-      "Instituts de beauté professionnels"
+      "Gestion locative",
+      "Courtage en assurance",
+      "Infogérance IT"
     ]
   }
 ];
 
 export function SectorsSection() {
   const [activeSector, setActiveSector] = useState<string | null>(null);
+  const { openForm } = useContactForm();
 
   const handleSectorClick = (sectorId: string) => {
     setActiveSector(activeSector === sectorId ? null : sectorId);
@@ -133,7 +137,7 @@ export function SectorsSection() {
     <section id="secteurs" className="w-full bg-white py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]">
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-12 md:mb-16 lg:mb-20">
+        <div className="text-center mb-8 md:mb-12 lg:mb-14">
           <p 
             className="text-[12px] md:text-[13px] tracking-[0.2em] uppercase mb-4"
             style={{ color: RUST, fontWeight: 500, letterSpacing: '0.2em' }}
@@ -143,10 +147,25 @@ export function SectorsSection() {
           <h2 className="text-[32px] md:text-[42px] lg:text-[52px] leading-[1.1] tracking-[-0.02em] max-w-[900px] mx-auto">
             Les marchés où nous créons de la valeur
           </h2>
+          <div className="mt-6 md:mt-9 lg:mt-10 flex flex-col items-center gap-3">
+            <p className="text-[15px] md:text-[17px] text-[#666666] leading-[1.65] text-center">
+              Votre secteur n&apos;apparaît pas ici ?
+            </p>
+            <button
+              onClick={openForm}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-[14px] md:text-[15px] font-semibold tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(183,71,42,0.25)] hover:shadow-[0_14px_30px_rgba(183,71,42,0.35)] transition-all duration-300 hover:-translate-y-0.5 border-none cursor-pointer"
+              style={{
+                background: RUST,
+                color: 'white'
+              }}
+            >
+              Contactez-nous →
+            </button>
+          </div>
         </div>
 
         {/* Sectors Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6 mb-12 md:mb-16 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6">
           {sectors.map((sector) => {
             const Icon = sector.icon;
             const isActive = activeSector === sector.id;
@@ -166,7 +185,7 @@ export function SectorsSection() {
                   '--tw-ring-color': isActive ? RUST : 'transparent'
                 } as React.CSSProperties}
               >
-                {/* Background Image - Only for maintenance-technique */}
+                {/* Background Image */}
                 {sector.bgImage && (
                   <div className="absolute inset-0 z-0 pointer-events-none">
                     <Image
@@ -176,12 +195,17 @@ export function SectorsSection() {
                       className="object-cover scale-110"
                       sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                       priority={sector.id === "maintenance-technique"}
+                      style={{
+                        objectPosition: sector.id === "equipements-specialises" ? 'center 40%' : ((sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines") ? 'center 20%' : 'center')
+                      }}
                     />
-                    {/* Effet Liquid Glass - transparence et flou */}
+                    {/* Effet Liquid Glass - différent selon le secteur */}
                     <div
                       className="absolute inset-0 transition-all duration-300"
                       style={{
-                        background: 'rgba(255, 255, 255, 0.02)',
+                        background: (sector.id === "equipements-specialises" || sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines")
+                          ? (sector.id === "securite-conformite" ? 'rgba(0, 0, 0, 0.05)' : (sector.id === "installations-electriques" ? 'rgba(0, 0, 0, 0.20)' : (sector.id === "maintenance-technique" || sector.id === "ressources-humaines" ? 'rgba(0, 0, 0, 0.50)' : (sector.id === "installations-sportives" ? 'rgba(0, 0, 0, 0.38)' : (sector.id === "voirie-marquage" || sector.id === "espaces-verts" ? 'rgba(0, 0, 0, 0.32)' : 'rgba(0, 0, 0, 0.35)')))))
+                          : 'rgba(255, 255, 255, 0.02)',
                         backdropFilter: 'blur(3px) saturate(110%)',
                         WebkitBackdropFilter: 'blur(3px) saturate(110%)'
                       }}
@@ -207,7 +231,13 @@ export function SectorsSection() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-[16px] md:text-[17px] lg:text-[18px] leading-[1.4] flex-1 pt-2" style={{ fontWeight: 600 }}>
+                    <h3
+                      className="text-[16px] md:text-[17px] lg:text-[18px] leading-[1.4] flex-1 pt-2"
+                      style={{
+                        fontWeight: 600,
+                        color: (sector.id === "equipements-specialises" || sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines") ? 'white' : 'inherit'
+                      }}
+                    >
                       {sector.title}
                     </h3>
                   </div>
@@ -215,7 +245,7 @@ export function SectorsSection() {
                   {/* Chevron */}
                   <ChevronDown
                     className={`w-5 h-5 md:w-6 md:h-6 flex-shrink-0 transition-transform duration-300 mt-2 ${isActive ? 'rotate-180' : ''}`}
-                    style={{ color: RUST }}
+                    style={{ color: (sector.id === "equipements-specialises" || sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines") ? 'white' : RUST }}
                     strokeWidth={2}
                   />
                 </div>
@@ -227,14 +257,22 @@ export function SectorsSection() {
                     ${isActive ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'}
                   `}
                 >
-                  <div className="pt-2 border-t border-black/10">
+                  <div className={`pt-2 ${(sector.id === "equipements-specialises" || sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines") ? 'border-t border-white/20' : 'border-t border-black/10'}`}>
                     <ul className="space-y-2 mt-4">
                       {sector.subSectors.map((subSector, idx) => (
                         <li
                           key={idx}
-                          className="text-[13px] md:text-[14px] text-[#444444] leading-[1.6] flex items-start gap-2"
+                          className="text-[13px] md:text-[14px] leading-[1.6] flex items-start gap-2"
+                          style={{
+                            color: (sector.id === "equipements-specialises" || sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines") ? 'rgba(255, 255, 255, 0.85)' : '#444444'
+                          }}
                         >
-                          <span style={{ color: RUST }} className="flex-shrink-0 mt-0.5">•</span>
+                          <span
+                            style={{ color: (sector.id === "equipements-specialises" || sector.id === "installations-sportives" || sector.id === "voirie-marquage" || sector.id === "espaces-verts" || sector.id === "installations-electriques" || sector.id === "securite-conformite" || sector.id === "maintenance-technique" || sector.id === "autres-services" || sector.id === "ressources-humaines") ? 'white' : RUST }}
+                            className="flex-shrink-0 mt-0.5"
+                          >
+                            •
+                          </span>
                           <span>{subSector}</span>
                         </li>
                       ))}
@@ -246,14 +284,6 @@ export function SectorsSection() {
           })}
         </div>
 
-        {/* Footer Message */}
-        <div className="text-center max-w-[700px] mx-auto">
-          <p className="text-[14px] md:text-[15px] lg:text-[16px] text-[#666666] leading-[1.7]">
-            Votre secteur n&apos;apparaît pas ici ?{" "}
-            <span style={{ color: RUST, fontWeight: 500 }}>Contactez-nous.</span>{" "}
-            Nous explorons en permanence de nouveaux marchés fragmentés.
-          </p>
-        </div>
       </div>
     </section>
   );

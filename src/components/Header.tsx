@@ -1,9 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useContactForm } from '@/contexts/ContactFormContext';
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { openForm } = useContactForm();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,18 +94,20 @@ export function Header() {
           </nav>
 
           {/* CTA Button - Always visible */}
-          <a
-            href="#contact"
+          <button
+            onClick={openForm}
             className="inline-flex shrink-0 items-center gap-2 px-6 py-3 rounded-lg transition-all duration-300 hover:opacity-90 whitespace-nowrap"
             style={{
               background: '#B7472A',
               color: 'white',
               fontWeight: 600,
-              fontSize: '15px'
+              fontSize: '15px',
+              border: 'none',
+              cursor: 'pointer'
             }}
           >
             Discutons →
-          </a>
+          </button>
 
           {/* Mobile menu button */}
           <button

@@ -40,9 +40,9 @@ export function FoundersSection() {
   return (
     <section 
       id="fondateurs" 
-      className="w-full bg-white py-12 md:py-20 lg:py-[100px] px-5 md:px-10 lg:px-[80px]"
+      className="w-full bg-white py-12 md:py-20 lg:py-[100px]"
     >
-      <div className="max-w-[1600px] mx-auto">
+      <div className="w-[95%] max-w-[1400px] mx-auto px-6 md:px-8 lg:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 xl:gap-20 items-center">
           {/* Left Side - Content */}
           <div className="lg:sticky lg:top-[120px] lg:self-start">

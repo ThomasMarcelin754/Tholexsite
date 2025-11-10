@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, useInView } from "framer-motion";
 import {
   Calculator,
   Scale,
@@ -15,9 +15,9 @@ import {
   Award,
 } from "lucide-react";
 import Image from "next/image";
+import { useContactForm } from "@/contexts/ContactFormContext";
 
 const GRAY_LINE = "#D1D1D1";
-const ACCENT_COLOR = "#E63946";
 const HUB_COLOR = "#B7472A";
 const BG_COLOR = "#FFF9F5";
 
@@ -356,9 +356,6 @@ function CurvedLine({
   showStartDot = false,
   showEndDot = false,
 }: CurvedLineProps) {
-  const pathRef = useRef<SVGPathElement>(null);
-  const [pathLength, setPathLength] = useState(1000);
-
   // Create symmetric quadratic Bezier curve
   // Control point is at the horizontal midpoint, with Y matching the destination for smooth convergence
   const controlX = (from.x + to.x) / 2;
@@ -366,75 +363,79 @@ function CurvedLine({
 
   const path = `M ${from.x} ${from.y} Q ${controlX} ${controlY} ${to.x} ${to.y}`;
 
-  useEffect(() => {
-    if (pathRef.current) {
-      const length = pathRef.current.getTotalLength();
-      setPathLength(length);
-    }
-  }, [path]);
+  // Track when the line enters the viewport so we only replay the draw animation once
+  const pathRef = useRef<SVGPathElement>(null);
+  const isInView = useInView(pathRef, {
+    margin: "-100px",
+    once: true,
+  });
+  const hasAnimatedRef = useRef(false);
+
+  if (isInView && !hasAnimatedRef.current) {
+    hasAnimatedRef.current = true;
+  }
+
+  const lineStroke = isHighlighted ? HUB_COLOR : GRAY_LINE;
+  const lineWidth = isHighlighted ? 2 : 1.5;
+  const shouldReveal = hasAnimatedRef.current || isInView;
+  const revealDelay = hasAnimatedRef.current ? 0 : delay;
 
   return (
     <g>
-      {/* LAYER 1: Static dashed line (always visible) */}
-      <motion.path
-        d={path}
-        stroke={isHighlighted ? HUB_COLOR : GRAY_LINE}
-        strokeWidth={isHighlighted ? "2" : "1.5"}
-        strokeDasharray="4 4"
-        strokeLinecap="round"
-        fill="none"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-100px" }}
-        animate={{
-          stroke: isHighlighted ? HUB_COLOR : GRAY_LINE,
-          strokeWidth: isHighlighted ? 2 : 1.5,
-        }}
-        transition={{
-          opacity: { duration: 0.5, delay: delay + 1.2 },
-          stroke: { duration: 0.3 },
-          strokeWidth: { duration: 0.3 },
-        }}
-      />
-
-      {/* LAYER 2: Animated drawing effect (transparent, just for visual draw-in) */}
+      {/* Base line with progressive draw animation */}
       <motion.path
         ref={pathRef}
         d={path}
-        stroke={isHighlighted ? HUB_COLOR : GRAY_LINE}
-        strokeWidth={isHighlighted ? "2" : "1.5"}
-        strokeDasharray={`${pathLength} ${pathLength}`}
-        strokeDashoffset={pathLength}
+        stroke={lineStroke}
+        strokeWidth={lineWidth}
         strokeLinecap="round"
         fill="none"
-        initial={{ strokeDashoffset: pathLength }}
-        whileInView={{ strokeDashoffset: 0 }}
-        transition={{
-          duration: 1.2,
-          delay,
-          ease: [0.25, 0.1, 0.25, 1],
+        initial={false}
+        animate={{
+          pathLength: shouldReveal ? 1 : 0,
+          opacity: shouldReveal ? 1 : 0,
+          stroke: lineStroke,
+          strokeWidth: lineWidth,
         }}
-        viewport={{ once: true, margin: "-100px" }}
-        style={{ opacity: 0.6 }}
+        transition={{
+          pathLength: {
+            duration: 1.05,
+            delay: revealDelay,
+            ease: [0.25, 0.1, 0.25, 1],
+          },
+          opacity: {
+            duration: 0.6,
+            delay: revealDelay,
+          },
+          stroke: { duration: 0.25 },
+          strokeWidth: { duration: 0.25 },
+        }}
+        style={{
+          filter: isHighlighted ? "drop-shadow(0 0 8px rgba(183,71,42,0.35))" : "none",
+        }}
       />
 
-      {/* Animated flow effect when highlighted */}
+      {/* Animated energy flow when highlighted */}
       {isHighlighted && (
         <motion.path
           d={path}
           stroke={HUB_COLOR}
           strokeWidth="2"
-          strokeDasharray="4 4"
+          strokeDasharray="14 14"
           strokeLinecap="round"
           fill="none"
-          initial={{ strokeDashoffset: 0 }}
+          initial={{ opacity: 0, strokeDashoffset: 0 }}
           animate={{
-            strokeDashoffset: -8,
+            opacity: 0.85,
+            strokeDashoffset: -28,
           }}
           transition={{
-            duration: 1.2,
-            repeat: Infinity,
-            ease: "linear",
+            opacity: { duration: 0.2 },
+            strokeDashoffset: {
+              duration: 1.4,
+              ease: "linear",
+              repeat: Infinity,
+            },
           }}
         />
       )}
@@ -446,17 +447,18 @@ function CurvedLine({
           cy={from.y}
           r={isHighlighted ? "3.5" : "3"}
           fill={isHighlighted ? HUB_COLOR : GRAY_LINE}
-          initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          initial={false}
           animate={{
+            opacity: shouldReveal ? 1 : 0,
+            scale: shouldReveal ? 1 : 0,
             r: isHighlighted ? 3.5 : 3,
             fill: isHighlighted ? HUB_COLOR : GRAY_LINE,
           }}
           transition={{
-            duration: 0.3,
-            delay: delay + 1.3,
-            ease: "backOut",
+            opacity: { duration: 0.4, delay: revealDelay + 0.6 },
+            scale: { duration: 0.4, delay: revealDelay + 0.6, ease: "backOut" },
+            r: { duration: 0.25 },
+            fill: { duration: 0.25 },
           }}
         />
       )}
@@ -468,17 +470,18 @@ function CurvedLine({
           cy={to.y}
           r={isHighlighted ? "3.5" : "3"}
           fill={isHighlighted ? HUB_COLOR : GRAY_LINE}
-          initial={{ opacity: 0, scale: 0 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
+          initial={false}
           animate={{
+            opacity: shouldReveal ? 1 : 0,
+            scale: shouldReveal ? 1 : 0,
             r: isHighlighted ? 3.5 : 3,
             fill: isHighlighted ? HUB_COLOR : GRAY_LINE,
           }}
           transition={{
-            duration: 0.3,
-            delay: delay + 1.3,
-            ease: "backOut",
+            opacity: { duration: 0.4, delay: revealDelay + 0.6 },
+            scale: { duration: 0.4, delay: revealDelay + 0.6, ease: "backOut" },
+            r: { duration: 0.25 },
+            fill: { duration: 0.25 },
           }}
         />
       )}
@@ -487,6 +490,7 @@ function CurvedLine({
 }
 
 export function VisionSection() {
+  const { openForm } = useContactForm();
   const [hoveredCard, setHoveredCard] = useState<string | null>(
     null,
   );
@@ -514,7 +518,7 @@ export function VisionSection() {
   const rightCardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const updatePositions = () => {
+  const updatePositions = useCallback(() => {
     if (!containerRef.current || !hubRef.current) return;
 
     const containerRect =
@@ -578,7 +582,7 @@ export function VisionSection() {
       left: leftPositions,
       right: rightPositions,
     });
-  };
+  }, []);
 
   useEffect(() => {
     // Initial update after a delay to ensure cards are mounted
@@ -593,7 +597,28 @@ export function VisionSection() {
       clearTimeout(timer2);
       window.removeEventListener("resize", updatePositions);
     };
-  }, []);
+  }, [updatePositions]);
+
+  useEffect(() => {
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const element = containerRef.current;
+    if (!element) {
+      return;
+    }
+
+    const resizeObserver = new ResizeObserver(() => {
+      updatePositions();
+    });
+
+    resizeObserver.observe(element);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [updatePositions]);
 
   // Hover logic: highlight the card, its path, the junction node, and the hub
   const isHubHighlighted = hoveredCard !== null;
@@ -628,28 +653,30 @@ export function VisionSection() {
           >
             Notre Vision
           </p>
-          <h2 className="text-[28px] md:text-[38px] lg:text-[48px] leading-[1.1] tracking-[-0.02em] mb-5 max-w-[850px] mx-auto">
+          <h2 className="text-[28px] md:text-[38px] lg:text-[48px] leading-[1.1] tracking-[-0.02em] max-w-[850px] mx-auto">
             L&apos;approche moderne de l&apos;acquisition
           </h2>
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-[14px] md:text-[15px] font-semibold tracking-[0.08em] mb-5 text-white shadow-[0_10px_24px_rgba(183,71,42,0.25)] hover:shadow-[0_14px_30px_rgba(183,71,42,0.35)] transition-all duration-300 hover:-translate-y-0.5"
-            style={{ background: '#B7472A' }}
-          >
-            Échangez avec un fondateur
-            <span aria-hidden="true">→</span>
-          </a>
-          <p className="text-[15px] md:text-[17px] text-[#666666] leading-[1.65] max-w-[680px] mx-auto">
-            Tholex devient le hub central pour toutes vos
-            fonctions support, vous permettant de vous
-            concentrer sur votre cœur de métier.
-          </p>
+          <div className="mt-6 md:mt-9 lg:mt-10 flex flex-col items-center gap-3">
+            <p className="text-[15px] md:text-[17px] text-[#666666] leading-[1.65] max-w-[680px] mx-auto">
+              Tholex devient le hub central pour toutes vos
+              fonctions support, vous permettant de vous
+              concentrer sur votre cœur de métier.
+            </p>
+            <button
+              onClick={openForm}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg text-[14px] md:text-[15px] font-semibold tracking-[0.08em] text-white shadow-[0_10px_24px_rgba(183,71,42,0.25)] hover:shadow-[0_14px_30px_rgba(183,71,42,0.35)] transition-all duration-300 hover:-translate-y-0.5 border-none cursor-pointer"
+              style={{ background: '#B7472A' }}
+            >
+              Échangez avec un fondateur
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </motion.div>
 
         {/* Vision Diagram - Centré */}
         <div
           ref={containerRef}
-          className="relative bg-white rounded-2xl p-8 md:p-12 lg:p-20 xl:p-32 border border-[#e5e5e5] overflow-hidden w-full"
+          className="relative w-full max-w-[1400px] mx-auto bg-white rounded-2xl p-8 md:p-12 lg:p-20 xl:p-32 border border-[#e5e5e5] overflow-hidden"
         >
           {/* SVG Lines Layer */}
           <svg
@@ -788,31 +815,31 @@ export function VisionSection() {
           className="text-center mt-12 md:mt-16 w-full"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          viewport={{ once: true, amount: 0.3 }}
         >
           <h3 className="text-[22px] md:text-[26px] font-semibold text-[#1f1f1f] tracking-[-0.01em]">
-            Vous restez concentré sur l'essentiel, nous prenons le reste
+            Vous restez concentré sur l&apos;essentiel, nous prenons le reste
           </h3>
-          <p className="mt-3 text-[14px] md:text-[16px] text-[#666666] max-w-[520px] mx-auto leading-[1.7] mb-12 md:mb-16 lg:mb-20">
+          <p className="mt-3 text-[14px] md:text-[16px] text-[#666666] max-w-[520px] mx-auto leading-[1.7] mb-6 md:mb-8 lg:mb-10">
             Tholex absorbe vos fonctions support pour que vous puissiez poursuivre ce qui fait la valeur de votre entreprise : vos clients, vos équipes et votre qualité de service.
           </p>
         </motion.div>
 
         {/* Benefits Cards - What founders can focus on - Centrées */}
         <motion.div
-          className="flex justify-center items-stretch gap-6 md:gap-8 w-full"
+          className="flex justify-between items-stretch gap-6 md:gap-8 w-full max-w-[1400px] mx-auto"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.9 }}
-          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          viewport={{ once: true, amount: 0.35 }}
         >
           {/* Card 1: Relation Client */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.94 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 1.1 }}
-            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.45, delay: 0.3 }}
+            viewport={{ once: true, amount: 0.4 }}
             className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#B7472A] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
           >
             <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
@@ -828,10 +855,10 @@ export function VisionSection() {
 
           {/* Card 2: Formation Interne */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.94 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.45, delay: 0.4 }}
+            viewport={{ once: true, amount: 0.4 }}
             className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#B7472A] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
           >
             <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
@@ -847,10 +874,10 @@ export function VisionSection() {
 
           {/* Card 3: Qualité de Service */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.94 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 1.3 }}
-            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.45, delay: 0.5 }}
+            viewport={{ once: true, amount: 0.4 }}
             className="bg-white rounded-2xl border border-[#e5e5e5] hover:border-[#B7472A] hover:shadow-lg transition-all duration-300 w-full max-w-[280px] flex flex-col items-center justify-center p-8"
           >
             <div className="w-16 h-16 rounded-full bg-[#FFF9F5] flex items-center justify-center mb-5">
